@@ -7,20 +7,21 @@ Boilerplate licensing info goes here
 package syslog
 
 import (
-	"fmt"
 	"github.com/intelsdi-x/snap-plugin-lib-go/v1/plugin"
-	"gopkg.in/mcuadros/go-syslog.v2"
-	"strings"
+	"time"
+)
+
+var (
+	logCounter uint64
 )
 
 // Initialization
 func init() {
-	// NOOP
+	logCounter = 0
 }
 
 // SyslogCollector implementation
-type SyslogCollector struct {
-}
+type SyslogCollector struct{}
 
 /*
 CollectMetrics collects metrics.
@@ -32,6 +33,21 @@ include a slice of all the metric types being collected.
 The output is the collected metrics as plugin.Metric and an error.
 */
 func (SyslogCollector) CollectMetrics(mts []plugin.Metric) ([]plugin.Metric, error) {
+	metrics := []plugin.Metric{}
+
+	// increment our counter
+	logCounter += 1
+
+	for idx, mt := range mts {
+		mts[idx].Timestamp = time.Now()
+
+		if mt.Namespace[len(mt.Namespace)-1].Value == "counter" {
+			mts[idx].Data = logCounter
+			metrics = append(metrics, mts[idx])
+		}
+	}
+
+	return metrics, nil
 }
 
 /*
@@ -47,6 +63,17 @@ The metrics returned will be advertised to users who list all the metrics and
 will become targetable by tasks.
 */
 func (SyslogCollector) GetMetricTypes(cfg plugin.Config) ([]plugin.Metric, error) {
+	metrics := []plugin.Metric{}
+
+	metrics = append(metrics, plugin.Metric{
+		Namespace: plugin.NewNamespace("syslog", "counter"), Version: 1,
+	})
+
+	//metrics = append(metrics, plugin.Metric{
+	//	Namespace: plugin.NewNamespace("syslog", "message"), Version: 1,
+	//})
+
+	return metrics, nil
 }
 
 /*
@@ -63,4 +90,6 @@ func (SyslogCollector) GetConfigPolicy() (plugin.ConfigPolicy, error) {
 		false,
 		plugin.SetMaxInt(65535),
 		plugin.SetMinInt(1))
+
+	return *policy, nil
 }
