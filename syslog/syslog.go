@@ -54,6 +54,7 @@ func init() {
 */
 func (SyslogCollector) CollectMetrics(mts []plugin.Metric) ([]plugin.Metric, error) {
 	metrics := []plugin.Metric{}
+	time := time.Now()
 
 	/*
 		Non-Blocking read from the syslog channel results in NULL entries in the
@@ -71,13 +72,13 @@ func (SyslogCollector) CollectMetrics(mts []plugin.Metric) ([]plugin.Metric, err
 
 			switch metricName {
 			case "counter":
-				setCounterMetric(mt, &metrics)
+				setCounterMetric(mt, &metrics, time)
 
 			case "testing":
-				setStaticMetric("testing", mt, &metrics)
+				setStaticMetric("testing", mt, &metrics, time)
 
 			default:
-				setLogPartMetrics(logParts, mt, &metrics)
+				setLogPartMetrics(logParts, mt, &metrics, time)
 			}
 		}
 
@@ -148,9 +149,9 @@ func (SyslogCollector) GetConfigPolicy() (plugin.ConfigPolicy, error) {
 /*
 	setCounterMetric is used to create the counter metric
 */
-func setCounterMetric(mt plugin.Metric, metrics *[]plugin.Metric) {
+func setCounterMetric(mt plugin.Metric, metrics *[]plugin.Metric, time time.Time) {
 	metric := plugin.Metric{
-		Timestamp: time.Now(),
+		Timestamp: time,
 		Namespace: mt.Namespace,
 		Data:      logCounter,
 		Tags:      mt.Tags,
@@ -168,9 +169,9 @@ func setCounterMetric(mt plugin.Metric, metrics *[]plugin.Metric) {
 /*
 	setStaticMetric is used to set a static value for a metric
 */
-func setStaticMetric(data string, mt plugin.Metric, metrics *[]plugin.Metric) {
+func setStaticMetric(data string, mt plugin.Metric, metrics *[]plugin.Metric, time time.Time) {
 	metric := plugin.Metric{
-		Timestamp: time.Now(),
+		Timestamp: time,
 		Namespace: mt.Namespace,
 		Data:      data,
 		Tags:      mt.Tags,
@@ -185,7 +186,7 @@ func setStaticMetric(data string, mt plugin.Metric, metrics *[]plugin.Metric) {
 /*
 	setLogPartMetrics is used to set the syslog fields
 */
-func setLogPartMetrics(logParts map[string]interface{}, mt plugin.Metric, metrics *[]plugin.Metric) {
+func setLogPartMetrics(logParts map[string]interface{}, mt plugin.Metric, metrics *[]plugin.Metric, time time.Time) {
 	fields := []string{
 		"app_name",
 		"client",
@@ -210,7 +211,7 @@ func setLogPartMetrics(logParts map[string]interface{}, mt plugin.Metric, metric
 			"events", hostname, metricName)
 
 		metric := plugin.Metric{
-			Timestamp: time.Now(),
+			Timestamp: time,
 			Namespace: ns,
 			Data:      value,
 			Tags:      mt.Tags,
