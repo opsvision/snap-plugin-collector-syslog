@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	pluginName    = "syslog-collector"
+	pluginName    = "syslog"
 	pluginVersion = 1
 )
 
