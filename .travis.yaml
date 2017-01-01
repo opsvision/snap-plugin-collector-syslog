@@ -1,0 +1,19 @@
+sudo: false
+language: go
+go:
+- 1.7
+before_install:
+- go get github.com/intelsdi-x/snap-plugin-lib-go.git
+- go get github.com/mcuadros/go-syslog.git
+env:
+  global:
+  matrix:
+  - TEST_TYPE=small
+  - TEST_TYPE=medium
+install:
+  - export TMPDIR=$HOME/tmp
+  - mkdir -p $TMPDIR
+script:
+  - go test -tags=$TEST_TYPE -v
+notifications:
+  email: false
