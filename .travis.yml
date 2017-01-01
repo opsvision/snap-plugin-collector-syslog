@@ -3,12 +3,11 @@ language: go
 go:
 - 1.7
 before_install:
-- go get github.com/mcuadros/go-syslog.git
+- go get github.com/mcuadros/go-syslog
 env:
   global:
   matrix:
   - TEST_TYPE=small
-  - TEST_TYPE=medium
 install:
   - export TMPDIR=$HOME/tmp
   - mkdir -p $TMPDIR
