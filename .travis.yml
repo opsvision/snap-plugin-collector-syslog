@@ -3,7 +3,7 @@ language: go
 go:
 - 1.7
 before_install:
-- go get github.com/mcuadros/go-syslog
+- go get github.com/mcuadros/go-syslog.v2
 env:
   global:
   matrix:
