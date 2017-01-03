@@ -20,6 +20,16 @@ limitations under the License.
 
 This Snap-Telemetry plugin collects events from Syslog.
 
+1. [Getting Started](#getting-started)
+  * [System Requirements](#system-requirements)
+  * [Installation](#installation)
+  * [Configuration and Usage](#configuration-and-usage)
+2. [Documentation](#documentation)
+  * [Collected Metrics](#collected-metrics)
+  * [Examples](#examples)
+  * [Roadmap](#roadmap)
+3. [Acknowledgements](#acknowledgements)
+
 ## Getting Started
 ### System Requirements 
 * [golang 1.7+](https://golang.org/dl/) (needed only for building)
@@ -60,3 +70,9 @@ Note: The [source] will be either the source hostname or IP address.
 /opsvision/syslog/events/foo/message: {}
 /opsvision/syslog/testing: test message
 ```
+
+### Roadmap
+TBD
+
+## Acknowledgements
+* Author: [@dishmael](https://github.com/dishmael/)
