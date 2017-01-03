@@ -3,7 +3,7 @@ language: go
 go:
   - 1.7
 before_install:
-  - go get github.com/intelsdi-x/snap-plugin-lib-go
+  - go get github.com/intelsdi-x/snap-plugin-lib-go/tree/master/v1/plugin
 env:
   global:
   matrix:
