@@ -1,3 +1,0 @@
-package: opsvision.com/dishmael/snap-plugin-collector-syslog
-import:
-- package: github.com/mcuadros/go-syslog.v2
