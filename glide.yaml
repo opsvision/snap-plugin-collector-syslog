@@ -2,6 +2,9 @@ package: github.com/dishmael/snap-plugin-collector-syslog
 import:
 - package: github.com/intelsdi-x/snap-plugin-lib-go
 - package: github.com/kardianos/osext
+- package: github.com/neelance/sourcemap
+- package: github.com/spf13/cobra
+- package: github.com/spf13/pflag
 - package: github.com/julienschmidt/httprouter
 - package: golang.org/x/net/context
 - package: google.golang.org/grpc
