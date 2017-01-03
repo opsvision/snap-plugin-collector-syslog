@@ -44,10 +44,11 @@ TBD
 ## Documentation
 ### Collected Metrics
 This plugin has the ability to gather the following metrics:
-Namespace | Description (optional)
-----------|-----------------------
-/opsvision/syslog/counter | a 64bit counter representing the number of log messages processed since the start of the collector
-/opsvision/syslog/events/[source]/message | the syslog event in JSON format
-/opsvision/syslog/testing | a metric used for testing - will be omitted later
+
+| Namespace | Description (optional) |
+| ----------|----------------------- |
+| /opsvision/syslog/counter | a 64bit counter representing the number of log messages processed since the start of the collector |
+| /opsvision/syslog/events/[source]/message | the syslog event in JSON format |
+| /opsvision/syslog/testing | a metric used for testing - will be omitted later |
 
 Note: The <source> will be either the source hostname or IP address.
