@@ -1,8 +1,9 @@
 sudo: false
 language: go
 go:
-- 1.7
+  - 1.7
 before install:
+  - go get github.com/intelsdi-x/snap-plugin-lib-go
 env:
   global:
   matrix:
