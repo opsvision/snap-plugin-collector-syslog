@@ -4,9 +4,6 @@ go:
   - 1.7
 before_install:
   - go get github.com/Masterminds/glide
-  - go get github.com/julienschmidt/httprouter
-  - go get golang.org/x/net/context
-  - go get google.golang.org/grpc
 env:
   global:
   matrix:
@@ -14,12 +11,5 @@ env:
 install:
   - export TMPDIR=$HOME/tmp
   - mkdir -p $TMPDIR
-  - cd $GOPATH/src
-  - git clone https://github.com/intelsdi-x/snap-plugin-lib-go.git
-  - cd snap-plugin-lib-go/v1/plugin/rpc
-  - sed -i.bak 's/SupportPackageIsVersion3/SupportPackageIsVersion4/' plugin.pb.go
-  - go install
-  - cd $GOPATH/src/snap-plugin-lib-go/v1/plugin
-  - go install
 notifications:
   email: false
