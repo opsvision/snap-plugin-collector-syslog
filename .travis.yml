@@ -2,6 +2,10 @@ sudo: false
 language: go
 go:
   - 1.7
+before_script:
+  - composer self-update -q
+  - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
+  - composer show -i
 before install:
   - go get github.com/intelsdi-x/snap-plugin-lib-go
 env:
