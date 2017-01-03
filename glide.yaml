@@ -1,5 +1,6 @@
 package: opsvision.com/dishmael/snap-plugin-collector-syslog
 import:
+- package: github.com/intelsdi-x/snap-plugin-lib-go
 - package: github.com/julienschmidt/httprouter
 - package: golang.org/x/net
   version: 154d9f9ea81208afed560f4cf27b4860c8ed1904
