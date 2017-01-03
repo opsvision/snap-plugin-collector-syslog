@@ -1,41 +1,8 @@
 package: github.com/dishmael/snap-plugin-collector-syslog
 import:
-- pacakge: cloud.google.com/go/compute/metadata
-- pacakge: golang.org/x/tools/go/buildutil
-- package: github.com/cpuguy83/go-md2man/md2man
-- package: github.com/fsnotify/fsnotify
-- package: github.com/golang/glog
-- package: github.com/hashicorp/hcl
-- package: github.com/intelsdi-x/snap-plugin-lib-go
 - package: github.com/julienschmidt/httprouter
-- package: github.com/kardianos/osext
-- package: github.com/magiconair/properties
 - package: gopkg.in/mcuadros/go-syslog.v2
-- package: github.com/mitchellh/mapstructure
-- package: github.com/neelance/sourcemap
-- package: github.com/pelletier/go-toml
-- package: github.com/spf13
-  subpackages:
-  - cast
-  - cobra
-  - jwalterweatherman
-  - pflag
-  - viper
-- package: golang.org/x/crypto/ssh/terminal
 - package: golang.org/x/net/context
-- package: golang.org/x/oauth2
-  subpackages:
-  - google
-  - jwt
-- package: golang.org/x/sys/unix
-- package: golang.org/x/text/encoding
-  subpackages:
-  - charmap
-  - htmlindex
-- package: golang.org/x/text/transform
-- package: golang.org/x/tools/go/types/typeutil
-- package: gopkg.in/fsnotify.v1
-- package: gopkg.in/yaml.v2
 - package: google.golang.org/grpc
   version: 0032a855ba5c8a3c8e0d71c2deef354b70af1584
   subpackages:
