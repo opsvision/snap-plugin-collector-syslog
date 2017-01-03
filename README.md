@@ -17,23 +17,37 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 # **Snap-Telemetry Collector for Syslog** [![Build Status](https://travis-ci.org/dishmael/snap-plugin-collector-syslog.svg?branch=master)](https://travis-ci.org/dishmael/snap-plugin-collector-syslog) [![Go Report Card](https://goreportcard.com/badge/github.com/dishmael/snap-plugin-collector-syslog)](https://goreportcard.com/report/github.com/dishmael/snap-plugin-collector-syslog)
-Snap-Telemetry collector plugin for Syslog messages
 
-##Collected Metrics
-The following metrics are collected.  The <source> will be either the source hostname or IP address.
-```
-/opsvision/syslog/counter
-/opsvision/syslog/events/<source>/app_name
-/opsvision/syslog/events/<source>/client
-/opsvision/syslog/events/<source>/facility
-/opsvision/syslog/events/<source>/message
-/opsvision/syslog/events/<source>/msg_id
-/opsvision/syslog/events/<source>/priority
-/opsvision/syslog/events/<source>/proc_id
-/opsvision/syslog/events/<source>/severity
-/opsvision/syslog/events/<source>/structured_data
-/opsvision/syslog/events/<source>/timestamp
-/opsvision/syslog/events/<source>/tls_peer
-/opsvision/syslog/events/<source>/version
-/opsvision/syslog/testing
-```
+This Snap-Telemetry plugin collects events from Syslog.
+
+## Getting Started
+### System Requirements 
+* [golang 1.7+](https://golang.org/dl/) (needed only for building)
+
+Note: This plugin does not require Python rather it depends on the go library [gopsutil](https://github.com/shirou/gopsutil).  
+
+### Operating systems
+All OSs currently supported by snap:
+* Linux/amd64
+* Darwin/amd64
+
+### Installation
+#### Download
+TBD
+
+#### Building
+TBD
+
+### Configuration and Usage
+* Set up the [Snap framework](https://github.com/intelsdi-x/snap/blob/master/README.md#getting-started)
+
+## Documentation
+### Collected Metrics
+This plugin has the ability to gather the following metrics:
+Namespace | Description (optional)
+----------|-----------------------
+/opsvision/syslog/counter | a 64bit counter representing the number of log messages processed since the start of the collector
+/opsvision/syslog/events/[source]/message | the syslog event in JSON format
+/opsvision/syslog/testing | a metric used for testing - will be omitted later
+
+Note: The <source> will be either the source hostname or IP address.
