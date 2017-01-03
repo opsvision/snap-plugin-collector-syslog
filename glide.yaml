@@ -2,7 +2,6 @@ package: github.com/dishmael/snap-plugin-collector-syslog
 import:
 - package: github.com/julienschmidt/httprouter
 - package: gopkg.in/mcuadros/go-syslog.v2
-- package: golang.org/x/net/context
 - package: google.golang.org/grpc
   version: 0032a855ba5c8a3c8e0d71c2deef354b70af1584
   subpackages:
@@ -14,3 +13,4 @@ import:
   - naming
   - peer
   - transport
+- package: github.com/intelsdi-x/snap-plugin-lib-go
