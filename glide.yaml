@@ -1,4 +1,5 @@
-package opsvision.com/dishmael/snap-plugin-collector-syslog
+package: opsvision.com/dishmael/snap-plugin-collector-syslog
+- package: github.com/julienschmidt/httprouter
 - package: golang.org/x/net
   version: 154d9f9ea81208afed560f4cf27b4860c8ed1904
   subpackages:
