@@ -3,6 +3,9 @@ language: go
 go:
   - 1.7
 before_install:
+  - go get github.com/julienschmidt/httprouter
+  - go get golang.org/x/net/context
+  - go get google.golang.org/grpc
   - git clone https://github.com/intelsdi-x/snap-plugin-lib-go.git
 env:
   global:
@@ -11,7 +14,7 @@ env:
 install:
   - export TMPDIR=$HOME/tmp
   - mkdir -p $TMPDIR
-script:
-  - go test -tags=$TEST_TYPE -v
+  - cd snap-plugin-lib-go/v1/plugin
+  - go build
 notifications:
   email: false
