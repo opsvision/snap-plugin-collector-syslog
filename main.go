@@ -8,7 +8,7 @@ package main
 
 import (
 	"github.com/intelsdi-x/snap-plugin-lib-go/v1/plugin"
-	"opsvision.com/dishmael/snap-plugin-collector-syslog/syslog"
+	"github.com/dishmael/snap-plugin-collector-syslog/syslog"
 )
 
 const (
