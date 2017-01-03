@@ -34,8 +34,6 @@ This Snap-Telemetry plugin collects events from Syslog.
 ### System Requirements 
 * [golang 1.7+](https://golang.org/dl/) (needed only for building)
 
-Note: This plugin does not require Python rather it depends on the go library [gopsutil](https://github.com/shirou/gopsutil).  
-
 ### Operating systems
 All OSs currently supported by snap:
 * Linux/amd64
