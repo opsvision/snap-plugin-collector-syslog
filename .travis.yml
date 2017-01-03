@@ -2,8 +2,6 @@ sudo: false
 language: go
 go:
 - 1.7
-before_install:
-- go get github.com/mcuadros/go-syslog.v2
 env:
   global:
   matrix:
@@ -11,6 +9,7 @@ env:
 install:
   - export TMPDIR=$HOME/tmp
   - mkdir -p $TMPDIR
+  - glide install
 script:
   - go test -tags=$TEST_TYPE -v
 notifications:
