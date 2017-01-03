@@ -2,6 +2,8 @@ sudo: false
 language: go
 go:
 - 1.7
+before install:
+- go get github.com/Masterminds/glide
 env:
   global:
   matrix:
