@@ -29,13 +29,13 @@ import (
 
 func TestSyslogCollector(t *testing.T) {
 	syslog := SyslogCollector{}
-	
+
 	// TODO: Write better testing
-	
+
 	Convey("Test SyslogCollector", t, func() {
 		Convey("Collect Integer", func() {
 			metrics := []plugin.Metric{
-				plugin.Metric{
+				{
 					Namespace: plugin.NewNamespace("opsvision", "syslog", "counter"),
 					Config:    map[string]interface{}{"port": int64(1514)},
 					Data:      34,
