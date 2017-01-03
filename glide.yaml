@@ -10,6 +10,7 @@ import:
 - package: github.com/julienschmidt/httprouter
 - package: github.com/kardianos/osext
 - package: github.com/magiconair/properties
+- package: gopkg.in/mcuadros/go-syslog.v2
 - package: github.com/mitchellh/mapstructure
 - package: github.com/neelance/sourcemap
 - package: github.com/pelletier/go-toml
