@@ -28,7 +28,7 @@ func TestSyslogCollector(t *testing.T) {
 					Timestamp: time.Now(),
 				},
 			}
-			mts, err := rc.CollectMetrics(metrics)
+			mts, err := syslog.CollectMetrics(metrics)
 			So(mts, ShouldNotBeEmpty)
 			So(err, ShouldBeNil)
 			So(mts[0].Data, ShouldEqual, 34)
