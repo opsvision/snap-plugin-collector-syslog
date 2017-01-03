@@ -45,7 +45,7 @@ func TestSyslogCollector(t *testing.T) {
 				},
 			}
 			mts, err := syslog.CollectMetrics(metrics)
-			So(len(mts), ShoulEqual, 0)
+			So(len(mts), ShouldEqual, 0)
 		})
 	})
 }
