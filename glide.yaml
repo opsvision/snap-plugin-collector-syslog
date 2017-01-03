@@ -5,8 +5,20 @@ import:
 - package: github.com/neelance/sourcemap
 - package: github.com/spf13/cobra
 - package: github.com/spf13/pflag
-- package: github.com/julienschmidt/httprouter
+- package: github.com/spf13/viper
+- package: gopkg.in/fsnotify.v1
+- package: github.com/cpuguy83/go-md2man/md2man
+- package: golang.org/x/text/encoding
+- package: golang.org/x/text/encoding/charmap
+- package: golang.org/x/text/encoding/htmlindex
+- package: golang.org/x/text/transform
 - package: golang.org/x/net/context
+- package: golang.org/x/crypto/ssh/terminal
+- package: golang.org/x/oauth2
+- package: golang.org/x/oauth2/google
+- package: golang.org/x/oauth2/jwt
+- package: github.com/golang/glog
+- package: github.com/julienschmidt/httprouter
 - package: google.golang.org/grpc
   version: 0032a855ba5c8a3c8e0d71c2deef354b70af1584
   subpackages:
