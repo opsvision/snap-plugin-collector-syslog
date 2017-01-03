@@ -51,4 +51,4 @@ This plugin has the ability to gather the following metrics:
 | /opsvision/syslog/events/[source]/message | the syslog event in JSON format |
 | /opsvision/syslog/testing | a metric used for testing - will be omitted later |
 
-Note: The <source> will be either the source hostname or IP address.
+Note: The [source] will be either the source hostname or IP address. Example: /opsvision/syslog/events/foo/message: {}
