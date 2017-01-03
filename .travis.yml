@@ -14,7 +14,8 @@ env:
 install:
   - export TMPDIR=$HOME/tmp
   - mkdir -p $TMPDIR
-  - cd snap-plugin-lib-go/v1/plugin
-  - go build
+  - cd snap-plugin-lib-go/v1/plugin/rpc
+  - sed -i .bak 's/grpc.SupportPackageIsVersion3/grpc.SupportPackageIsVersion4/' plugin.pb.go
+  - go install
 notifications:
   email: false
