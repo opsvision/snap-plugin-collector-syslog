@@ -3,7 +3,6 @@ language: go
 go:
 - 1.7
 before install:
-- go get github.com/Masterminds/glide
 env:
   global:
   matrix:
@@ -11,7 +10,6 @@ env:
 install:
   - export TMPDIR=$HOME/tmp
   - mkdir -p $TMPDIR
-  - glide install
 script:
   - go test -tags=$TEST_TYPE -v
 notifications:
