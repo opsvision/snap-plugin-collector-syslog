@@ -98,26 +98,26 @@ Note: The [source] will be either the source hostname or IP address.
 ### Example output
 The following provides an example of the output from the Syslog collector. Here, the [source] is *localhost*.
 ```
-/opsvision/syslog/counter 					 39 	         2017-01-01 10:00:00.000000000 +0000 UTC
-/opsvision/syslog/event/localhost/message 	 {} 	         2017-01-01 10:00:00.000000000 +0000 UTC
-/opsvision/syslog/event/localhost/summary 	 Test message 	 2017-01-01 10:00:00.000000000 +0000 UTC
+/opsvision/syslog/counter                        39              2017-01-01 10:00:00.000000000 +0000 UTC
+/opsvision/syslog/event/localhost/message        {...}           2017-01-01 10:00:00.000000000 +0000 UTC
+/opsvision/syslog/event/localhost/summary        Test message    2017-01-01 10:00:00.000000000 +0000 UTC
 ```
 The ```/opsvision/syslog/event/[source]/message``` metric will be a JSON string containing the following fields:
 ```
 {
-	"app_name":"root",
-	"client":"127.0.0.1:45147",
-	"facility":1,
+    "app_name":"root",
+    "client":"127.0.0.1:45147",
+    "facility":1,
     "hostname":"localhost",
-	"message":"Test message",
-	"msg_id":"-",
-	"priority":13,
+    "message":"Test message",
+    "msg_id":"-",
+    "priority":13,
     "proc_id":"-",
-	"severity":5,
+    "severity":5,
     "structured_data":"[meta sequenceId=\"15\"]",
-	"timestamp":"2017-01-01T10:00:00Z",
-	"tls_peer":"",
-	"version":1
+    "timestamp":"2017-01-01T10:00:00Z",
+    "tls_peer":"",
+    "version":1
 }
 ```
 ### Issues and Roadmap
