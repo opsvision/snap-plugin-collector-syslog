@@ -19,6 +19,7 @@ limitations under the License.
 package syslog
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/intelsdi-x/snap-plugin-lib-go/v1/plugin"
 	"gopkg.in/mcuadros/go-syslog.v2"
@@ -34,6 +35,21 @@ const (
 
 // Types
 type SyslogCollector struct{}
+type SyslogMessage struct {
+	app_name        string
+	client          string
+	facility        string
+	hostname        string
+	message         string
+	msg_id          string
+	priority        string
+	proc_id         string
+	severity        string
+	structured_data string
+	timestamp       string
+	tls_peer        string
+	version         string
+}
 
 // Global variables
 var channel = make(syslog.LogPartsChannel, 1024)
@@ -122,15 +138,15 @@ func (SyslogCollector) GetMetricTypes(cfg plugin.Config) ([]plugin.Metric, error
 		Version:   VERSION,
 	})
 
-	// namespace: /NS_VENDOR/NS_PLUGIN/testing
+	// namespace: /NS_VENDOR/NS_PLUGIN/summary
 	metrics = append(metrics, plugin.Metric{
-		Namespace: plugin.NewNamespace(NS_VENDOR, NS_PLUGIN, "testing"),
+		Namespace: plugin.NewNamespace(NS_VENDOR, NS_PLUGIN, "summary"),
 		Version:   VERSION,
 	})
 
 	// namespace: /NS_VENDOR/NS_PLUGIN/*/message
 	metrics = append(metrics, plugin.Metric{
-		Namespace: plugin.NewNamespace(NS_VENDOR, NS_PLUGIN, "events").
+		Namespace: plugin.NewNamespace(NS_VENDOR, NS_PLUGIN, "event").
 			AddDynamicElement("source", "the source hostname or IP address").
 			AddStaticElement("message"),
 		Version: VERSION,
@@ -199,39 +215,42 @@ func setStaticMetric(data string, mt plugin.Metric, metrics *[]plugin.Metric, ti
 	setLogPartMetrics is used to set the syslog fields
 */
 func setLogPartMetrics(logParts map[string]interface{}, mt plugin.Metric, metrics *[]plugin.Metric, time time.Time) {
-	fields := []string{
-		"app_name",
-		"client",
-		"facility",
-		"message",
-		"msg_id",
-		"priority",
-		"proc_id",
-		"severity",
-		"structured_data",
-		"timestamp",
-		"tls_peer",
-		"version",
+	// Extract hostname and message payload
+	hostname := fmt.Sprintf("%v", logParts["hostname"])
+	summary := fmt.Sprintf("%v", logParts["message"])
+	message, _ := json.Marshal(logParts)
+
+	// Setup the namespace (/opsvision/syslog/event/[source]/summary
+	ns := plugin.NewNamespace(NS_VENDOR, NS_PLUGIN,
+		"event", hostname, "summary")
+
+	// Create the summary metric
+	metric := plugin.Metric{
+		Timestamp: time,
+		Namespace: ns,
+		Data:      summary,
+		Tags:      mt.Tags,
+		Config:    mt.Config,
+		Version:   VERSION,
 	}
 
-	for i := 0; i < len(fields); i++ {
-		metricName := fields[i]
-		hostname := fmt.Sprintf("%v", logParts["hostname"])
-		value := fmt.Sprintf("%v", logParts[metricName])
+	// Store our metric
+	*metrics = append(*metrics, metric)
 
-		ns := plugin.NewNamespace(NS_VENDOR, NS_PLUGIN,
-			"events", hostname, metricName)
+	// Setup the namespace (/opsvision/syslog/event/[source]/message
+	ns = plugin.NewNamespace(NS_VENDOR, NS_PLUGIN,
+		"event", hostname, "message")
 
-		metric := plugin.Metric{
-			Timestamp: time,
-			Namespace: ns,
-			Data:      value,
-			Tags:      mt.Tags,
-			Config:    mt.Config,
-			Version:   VERSION,
-		}
-
-		// Store our metric
-		*metrics = append(*metrics, metric)
+	// Create the summary metric
+	metric = plugin.Metric{
+		Timestamp: time,
+		Namespace: ns,
+		Data:      string(message),
+		Tags:      mt.Tags,
+		Config:    mt.Config,
+		Version:   VERSION,
 	}
+
+	// Store our metric
+	*metrics = append(*metrics, metric)
 }
