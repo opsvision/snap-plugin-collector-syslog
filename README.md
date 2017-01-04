@@ -27,10 +27,11 @@ This Snap-Telemetry plugin collects events from Syslog in response to the [wishl
 2. [Documentation](#documentation)
   * [Collected Metrics](#collected-metrics)
   * [Examples](#examples)
-  * [Roadmap](#roadmap)
+  * [Issues and Roadmap](#issues-and-roadmap)
 3. [Acknowledgements](#acknowledgements)
 
 ## Getting Started
+Read the system requirements, supported platforms, and installation guide for obtaining and using this Snap plugin.
 ### System Requirements 
 * [golang 1.7+](https://golang.org/dl/) (needed only for building)
 
@@ -40,6 +41,7 @@ All OSs currently supported by snap:
 * Darwin/amd64
 
 ### Installation
+The following sections provide a guide for obtaining the Syslog collector plugin.
 #### Download
 The simplest approach is to use ```go get``` to fetch and build the plugin. The following command will place the binary in your ```$GOPATH/bin``` folder where you can load it into snap.
 ```
@@ -80,6 +82,7 @@ snap-plugin-collector-syslog
 ### Configuration and Usage
 * Set up the [Snap framework](https://github.com/intelsdi-x/snap/blob/master/README.md#getting-started)
 
+
 ## Documentation
 ### Collected Metrics
 This plugin has the ability to gather the following metrics:
@@ -92,16 +95,34 @@ This plugin has the ability to gather the following metrics:
 
 Note: The [source] will be either the source hostname or IP address.
 
-### Examples
-
+### Example output
+The following provides an example of the output from the Syslog collector. Here, the [source] is *localhost*.
 ```
-/opsvision/syslog/counter: 1
-/opsvision/syslog/events/foo/message: {}
-/opsvision/syslog/testing: test message
+/opsvision/syslog/counter 					 39 	         2017-01-01 10:00:00.000000000 +0000 UTC
+/opsvision/syslog/event/localhost/message 	 {} 	         2017-01-01 10:00:00.000000000 +0000 UTC
+/opsvision/syslog/event/localhost/summary 	 Test message 	 2017-01-01 10:00:00.000000000 +0000 UTC
 ```
-
-### Roadmap
-TBD
+The ```/opsvision/syslog/event/[source]/message``` metric will be a JSON string containing the following fields:
+```
+{
+	"app_name":"root",
+	"client":"127.0.0.1:45147",
+	"facility":1,
+    "hostname":"localhost",
+	"message":"Test message",
+	"msg_id":"-",
+	"priority":13,
+    "proc_id":"-",
+	"severity":5,
+    "structured_data":"[meta sequenceId=\"15\"]",
+	"timestamp":"2017-01-01T10:00:00Z",
+	"tls_peer":"",
+	"version":1
+}
+```
+### Issues and Roadmap
+* Apply Configurations: The Syslog collector defaults to UDP port 1514. This needs to be controllable by setting configuration options in the task file. The collector also uses a buffered channel that is set to 1024 and should also be controllable via the configuration options in the task file. Both are planned in the immediate future.
+* Leverage a Stream-based Collector Model: The Snap collector workflow is schedule based. This means that the Syslog collector will spit out null values in the log if there are no messages in the queue. There have been discussions on the Snap Slack #snap-developers channel about a collector that can handle stream data. This will greatly improve the Syslog collector.
 
 ## Acknowledgements
 * Author: [@dishmael](https://github.com/dishmael/)
