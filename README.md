@@ -83,7 +83,8 @@ snap-plugin-collector-syslog
 ```
 
 ### Configuration and Usage
-* Set up the [Snap framework](https://github.com/intelsdi-x/snap/blob/master/README.md#getting-started)
+Set up the [Snap framework](https://github.com/intelsdi-x/snap/blob/master/README.md#getting-started)
+
 Once the framework is up and running, you can load the plugin and then load a task that uses the Syslog collector. For our task example, we are using a file publisher. You can also download the example [task file](https://raw.githubusercontent.com/dishmael/snap-plugin-collector-syslog/master/tasks/syslog.yaml).
 ```
 ---
