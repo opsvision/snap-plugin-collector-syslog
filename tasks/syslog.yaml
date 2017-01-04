@@ -1,0 +1,16 @@
+---
+  version: 1
+  schedule:
+    type: "simple"
+    interval: "1s"
+  max-failures: 10
+  workflow:
+    collect:
+      metrics:
+        /opsvision/syslog/counter: {}
+        /opsvision/syslog/summary: {}
+        /opsvision/syslog/event/*: {}
+      publish:
+        - plugin_name: "file"
+          config:
+            file: "/tmp/syslog_metrics.log"
