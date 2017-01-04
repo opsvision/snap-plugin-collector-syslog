@@ -29,5 +29,6 @@ const (
 )
 
 func main() {
-	plugin.StartCollector(syslog.SyslogCollector{}, pluginName, pluginVersion)
+	//plugin.StartCollector(syslog.SyslogCollector{}, pluginName, pluginVersion)
+	plugin.StartCollector(syslog.New(), pluginName, pluginVersion)
 }

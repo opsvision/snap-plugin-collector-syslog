@@ -23,6 +23,8 @@ import (
 	"fmt"
 	"github.com/intelsdi-x/snap-plugin-lib-go/v1/plugin"
 	"gopkg.in/mcuadros/go-syslog.v2"
+	"log"
+	"os"
 	"time"
 )
 
@@ -31,10 +33,19 @@ const (
 	NS_VENDOR = "opsvision"
 	NS_PLUGIN = "syslog"
 	VERSION   = 1
+	PORT      = 1514
+	BUFSIZE   = 1024
+	FILENAME  = "/tmp/syslog-collector.log"
 )
 
 // Types
-type SyslogCollector struct{}
+type SyslogCollector struct {
+	initialized bool
+	incoming    syslog.LogPartsChannel
+	logCounter  uint64
+	logger      *log.Logger
+}
+
 type SyslogMessage struct {
 	app_name        string
 	client          string
@@ -51,24 +62,57 @@ type SyslogMessage struct {
 	version         string
 }
 
-// Global variables
-var channel = make(syslog.LogPartsChannel, 1024)
-var logCounter uint64
+// Constructor
+func New() *SyslogCollector {
+	return new(SyslogCollector)
+}
 
 // Initialization
-func init() {
-	logCounter = 1
+func (p *SyslogCollector) init(cfg plugin.Config) error {
+	if p.initialized {
+		return nil
+	}
 
+	// Setup logging (optional/debugging)
+	if file, err := os.OpenFile(FILENAME, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666); err == nil {
+		p.logger = log.New(file, "", log.LstdFlags|log.Lshortfile)
+		p.logger.Println("Snap Plugin Collectof for Syslog, Version ", VERSION)
+		p.logger.Println("Logging system online")
+	}
+
+	// Initialize the log counter
+	p.logCounter = 1
+
+	// Initialize the buffered channel
+	bufsize := BUFSIZE // set initial to default
+	if value, err := cfg.GetInt("bufsize"); err == nil {
+		bufsize = int(value)
+	}
+	p.incoming = make(syslog.LogPartsChannel, bufsize)
+	p.logger.Println("Using Bufsize: ", bufsize)
+
+	// Start listening for Syslog messages
 	go func() {
-		handler := syslog.NewChannelHandler(channel)
+		port := PORT // set initial to default
+		if value, err := cfg.GetInt("port"); err == nil {
+			port = int(value)
+		}
 
+		network := fmt.Sprintf("0.0.0.0:%v", port)
+		handler := syslog.NewChannelHandler(p.incoming)
 		server := syslog.NewServer()
 		server.SetFormat(syslog.RFC5424)
 		server.SetHandler(handler)
-		server.ListenUDP("0.0.0.0:1514")
+		server.ListenUDP(network)
 		server.Boot()
+
+		p.logger.Println("Listening on ", network)
+
 		server.Wait()
 	}()
+
+	p.initialized = true
+	return nil
 }
 
 /*
@@ -80,7 +124,16 @@ func init() {
 
 	The output is the collected metrics as plugin.Metric and an error.
 */
-func (SyslogCollector) CollectMetrics(mts []plugin.Metric) ([]plugin.Metric, error) {
+func (p *SyslogCollector) CollectMetrics(mts []plugin.Metric) ([]plugin.Metric, error) {
+	// Check init
+	if len(mts) > 0 {
+		if err := p.init(mts[0].Config); err != nil {
+			return nil, err
+		}
+	} else {
+		return mts, nil
+	}
+
 	metrics := []plugin.Metric{}
 	time := time.Now()
 
@@ -89,7 +142,7 @@ func (SyslogCollector) CollectMetrics(mts []plugin.Metric) ([]plugin.Metric, err
 		log file every time this function is called.
 	*/
 	select {
-	case logParts := <-channel:
+	case logParts := <-p.incoming:
 		if len(logParts["hostname"].(string)) == 0 {
 			break
 		}
@@ -100,7 +153,10 @@ func (SyslogCollector) CollectMetrics(mts []plugin.Metric) ([]plugin.Metric, err
 
 			switch metricName {
 			case "counter":
-				setCounterMetric(mt, &metrics, time)
+				setCounterMetric(p.logCounter, mt, &metrics, time)
+
+				// Increment the counter
+				p.logCounter += 1
 
 			case "testing":
 				setStaticMetric("testing", mt, &metrics, time)
@@ -129,7 +185,7 @@ func (SyslogCollector) CollectMetrics(mts []plugin.Metric) ([]plugin.Metric, err
 	The metrics returned will be advertised to users who list all the metrics and
 	will become targetable by tasks.
 */
-func (SyslogCollector) GetMetricTypes(cfg plugin.Config) ([]plugin.Metric, error) {
+func (p *SyslogCollector) GetMetricTypes(cfg plugin.Config) ([]plugin.Metric, error) {
 	metrics := []plugin.Metric{}
 
 	// Counter metric
@@ -166,15 +222,20 @@ func (SyslogCollector) GetMetricTypes(cfg plugin.Config) ([]plugin.Metric, error
 	A config policy is how users can provide configuration info to plugin. Here
 	you define what sorts of config info your plugin needs and/or requires.
 */
-func (SyslogCollector) GetConfigPolicy() (plugin.ConfigPolicy, error) {
+func (p *SyslogCollector) GetConfigPolicy() (plugin.ConfigPolicy, error) {
 	policy := plugin.NewConfigPolicy()
 
 	// The UDP and TCP port the syslog server should listen
-	policy.AddNewIntRule([]string{"port", "integer"},
+	policy.AddNewIntRule([]string{NS_VENDOR, NS_PLUGIN},
 		"port",
 		false,
 		plugin.SetMaxInt(65535),
 		plugin.SetMinInt(1))
+
+	// The size of the buffered channel
+	policy.AddNewIntRule([]string{NS_VENDOR, NS_PLUGIN},
+		"bufsize",
+		false)
 
 	return *policy, nil
 }
@@ -182,11 +243,11 @@ func (SyslogCollector) GetConfigPolicy() (plugin.ConfigPolicy, error) {
 /*
 	setCounterMetric is used to create the counter metric
 */
-func setCounterMetric(mt plugin.Metric, metrics *[]plugin.Metric, time time.Time) {
+func setCounterMetric(counter uint64, mt plugin.Metric, metrics *[]plugin.Metric, time time.Time) {
 	metric := plugin.Metric{
 		Timestamp: time,
 		Namespace: mt.Namespace,
-		Data:      logCounter,
+		Data:      counter,
 		Tags:      mt.Tags,
 		Config:    mt.Config,
 		Version:   VERSION,
@@ -194,9 +255,6 @@ func setCounterMetric(mt plugin.Metric, metrics *[]plugin.Metric, time time.Time
 
 	// Store our metric
 	*metrics = append(*metrics, metric)
-
-	// Increment the counter
-	logCounter += 1
 }
 
 /*
