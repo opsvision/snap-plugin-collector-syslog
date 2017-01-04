@@ -18,7 +18,7 @@ limitations under the License.
 -->
 # **Snap-Telemetry Collector for Syslog** [![Build Status](https://travis-ci.org/dishmael/snap-plugin-collector-syslog.svg?branch=master)](https://travis-ci.org/dishmael/snap-plugin-collector-syslog) [![Go Report Card](https://goreportcard.com/badge/github.com/dishmael/snap-plugin-collector-syslog)](https://goreportcard.com/report/github.com/dishmael/snap-plugin-collector-syslog)
 
-This Snap-Telemetry plugin collects events from Syslog.
+This Snap-Telemetry plugin collects events from Syslog in response to the [wishlist request](https://github.com/intelsdi-x/snap/issues/1117) for this feature.
 
 1. [Getting Started](#getting-started)
   * [System Requirements](#system-requirements)
@@ -41,10 +41,41 @@ All OSs currently supported by snap:
 
 ### Installation
 #### Download
-TBD
+The simplest approach is to use ```go get``` to fetch and build the plugin. The following command will place the binary in your ```$GOPATH/bin``` folder where you can load it into snap.
+```
+$ go get github.com/dishmael/snap-plugin-collector-syslog
+```
 
 #### Building
-TBD
+You can also download the source and build it manually. The repository utilizes [glide](https://github.com/Masterminds/glide) for library management. Much like the previous method, executing ```go install``` will place the binary in your ```$GOPATH/bin``` folder.
+```
+$ git clone http://github.com/dishmael/snap-plugin-collector-syslog
+$ glide up
+[INFO]	Downloading dependencies. Please wait...
+[INFO]	--> Fetching updates for ...
+[INFO]	Resolving imports
+[INFO]	--> Fetching updates for ...
+[INFO]	Downloading dependencies. Please wait...
+[INFO]	Setting references for remaining imports
+[INFO]	Exporting resolved dependencies...
+[INFO]	--> Exporting ...
+[INFO]	Replacing existing vendor dependencies
+[INFO]	Project relies on ... dependencies.
+$ go install
+```
+
+#### Source structure
+The following file structure provides an overview of where the files exist in the source tree. The [syslog.go](https://github.com/dishmael/snap-plugin-collector-syslog/blob/master/syslog/syslog.go) file does all the work.
+```
+snap-plugin-collector-syslog
+├── glide.yaml
+├── LICENSE
+├── main.go
+├── README.md
+└── syslog
+    ├── syslog.go
+    └── syslog_test.go
+```
 
 ### Configuration and Usage
 * Set up the [Snap framework](https://github.com/intelsdi-x/snap/blob/master/README.md#getting-started)
