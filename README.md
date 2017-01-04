@@ -167,8 +167,7 @@ The ```/opsvision/syslog/event/[source]/message``` metric will be a JSON string 
 }
 ```
 ### Issues and Roadmap
-* Apply Configurations: The Syslog collector defaults to UDP port 1514. This needs to be controllable by setting configuration options in the task file. The collector also uses a buffered channel that is set to 1024 and should also be controllable via the configuration options in the task file. Both are planned in the immediate future.
-* Leverage a Stream-based Collector Model: The Snap collector workflow is schedule based. This means that the Syslog collector will spit out null values in the log if there are no messages in the queue. There have been discussions on the Snap Slack #snap-developers channel about a collector that can handle stream data. This will greatly improve the Syslog collector.
+* Leverage a Stream-based Collector Model: The Snap collector workflow is schedule based. This means that the Syslog collector will spit out null values in the log if there are no messages in the queue. There have been discussions on the Snap Slack #snap-developers channel about a collector that can handle stream data. This will greatly improve the Syslog collector as well as other collection sources such as SNMP Traps, NetFlow, and so on.
 
 ## Acknowledgements
 * Author: [@dishmael](https://github.com/dishmael/)
