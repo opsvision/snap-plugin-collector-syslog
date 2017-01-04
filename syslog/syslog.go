@@ -132,23 +132,28 @@ func (SyslogCollector) CollectMetrics(mts []plugin.Metric) ([]plugin.Metric, err
 func (SyslogCollector) GetMetricTypes(cfg plugin.Config) ([]plugin.Metric, error) {
 	metrics := []plugin.Metric{}
 
+	// Counter metric
 	// namespace: /NS_VENDOR/NS_PLUGIN/counter
 	metrics = append(metrics, plugin.Metric{
 		Namespace: plugin.NewNamespace(NS_VENDOR, NS_PLUGIN, "counter"),
 		Version:   VERSION,
 	})
 
-	// namespace: /NS_VENDOR/NS_PLUGIN/summary
-	metrics = append(metrics, plugin.Metric{
-		Namespace: plugin.NewNamespace(NS_VENDOR, NS_PLUGIN, "summary"),
-		Version:   VERSION,
-	})
-
-	// namespace: /NS_VENDOR/NS_PLUGIN/*/message
+	// Message metric
+	// namespace: /NS_VENDOR/NS_PLUGIN/event/*/message
 	metrics = append(metrics, plugin.Metric{
 		Namespace: plugin.NewNamespace(NS_VENDOR, NS_PLUGIN, "event").
 			AddDynamicElement("source", "the source hostname or IP address").
 			AddStaticElement("message"),
+		Version: VERSION,
+	})
+
+	// Summary metric
+	// namespace: /NS_VENDOR/NS_PLUGIN/event/*/summary
+	metrics = append(metrics, plugin.Metric{
+		Namespace: plugin.NewNamespace(NS_VENDOR, NS_PLUGIN, "event").
+			AddDynamicElement("source", "the source hostname or IP address").
+			AddStaticElement("summary"),
 		Version: VERSION,
 	})
 
