@@ -8,8 +8,8 @@
     collect:
       metrics:
         /opsvision/syslog/counter: {}
-        /opsvision/syslog/summary: {}
-        /opsvision/syslog/event/*: {}
+        /opsvision/syslog/event/*/summary: {}
+        /opsvision/syslog/event/*/message: {}
       publish:
         - plugin_name: "file"
           config:
