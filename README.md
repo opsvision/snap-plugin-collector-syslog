@@ -42,6 +42,7 @@ All OSs currently supported by snap:
 
 ### Installation
 The following sections provide a guide for obtaining the Syslog collector plugin.
+
 #### Download
 The simplest approach is to use ```go get``` to fetch and build the plugin. The following command will place the binary in your ```$GOPATH/bin``` folder where you can load it into snap.
 ```
@@ -49,8 +50,10 @@ $ go get github.com/dishmael/snap-plugin-collector-syslog
 ```
 
 #### Building
-You can also download the source and build it manually. The repository utilizes [glide](https://github.com/Masterminds/glide) for library management. Much like the previous method, executing ```go install``` will place the binary in your ```$GOPATH/bin``` folder.
+The following provides instructions for building the plugin yourself if you decided to downlaod the source. We assume you already have a $GOPATH setup for [golang development](https://golang.org/doc/code.html). The repository utilizes [glide](https://github.com/Masterminds/glide) for library management.
 ```
+$ mkdir -p $GOPATH/src/github.com/dishmael
+$ cd $GOPATH/src/github.com/dishmael
 $ git clone http://github.com/dishmael/snap-plugin-collector-syslog
 $ glide up
 [INFO]	Downloading dependencies. Please wait...
@@ -81,7 +84,25 @@ snap-plugin-collector-syslog
 
 ### Configuration and Usage
 * Set up the [Snap framework](https://github.com/intelsdi-x/snap/blob/master/README.md#getting-started)
-
+Once the framework is up and running, you can load the plugin and then load a task that uses the Syslog collector. For our task example, we are using a file publisher. You can also download the example [task file](https://raw.githubusercontent.com/dishmael/snap-plugin-collector-syslog/master/tasks/syslog.yaml).
+```
+---
+  version: 1
+  schedule:
+    type: "simple"
+    interval: "1s"
+  max-failures: 10
+  workflow:
+    collect:
+      metrics:
+        /opsvision/syslog/counter: {}
+        /opsvision/syslog/event/*/summary: {}
+        /opsvision/syslog/event/*/message: {}
+      publish:
+        - plugin_name: "file"
+          config:
+            file: "/tmp/syslog_metrics.log"
+```
 
 ## Documentation
 ### Collected Metrics
