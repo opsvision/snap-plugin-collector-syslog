@@ -76,7 +76,7 @@ func (p *SyslogCollector) init(cfg plugin.Config) error {
 	// Setup logging (optional/debugging)
 	if file, err := os.OpenFile(FILENAME, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666); err == nil {
 		p.logger = log.New(file, "", log.LstdFlags|log.Lshortfile)
-		p.logger.Println("Snap Plugin Collectof for Syslog, Version ", VERSION)
+		p.logger.Println("Snap Plugin Collector for Syslog, Version ", VERSION)
 		p.logger.Println("Logging system online")
 	}
 
