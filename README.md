@@ -107,6 +107,10 @@ Create a file called, for example, syslog.yaml shown below or download the examp
   max-failures: 10
   workflow:
     collect:
+      config:
+        /opsvision/syslog:
+          port: 1514
+          bufsize: 1024
       metrics:
         /opsvision/syslog/counter: {}
         /opsvision/syslog/event/*/summary: {}
