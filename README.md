@@ -85,7 +85,19 @@ snap-plugin-collector-syslog
 ### Configuration and Usage
 Set up the [Snap framework](https://github.com/intelsdi-x/snap/blob/master/README.md#getting-started)
 
-Once the framework is up and running, you can load the plugin and then load a task that uses the Syslog collector. For our task example, we are using a file publisher. You can also download the example [task file](https://raw.githubusercontent.com/dishmael/snap-plugin-collector-syslog/master/tasks/syslog.yaml).
+#### Load the Plugin
+Once the framework is up and running, you can load the plugin.
+```
+$ snaptel plugin load snap-plugin-collector-syslog
+$ snaptel metric list
+NAMESPACE                            VERSIONS
+/opsvision/syslog/counter            1
+/opsvision/syslog/event/*/message 	 1
+/opsvision/syslog/event/*/summary    1
+```
+
+#### Task File
+Create a file called, for example, syslog.yaml shown below or download the example [task file](https://raw.githubusercontent.com/dishmael/snap-plugin-collector-syslog/master/tasks/syslog.yaml). For our task example, we are using a file publisher that outputs the collected content to /tmp/syslog_metrics.log.
 ```
 ---
   version: 1
@@ -103,6 +115,14 @@ Once the framework is up and running, you can load the plugin and then load a ta
         - plugin_name: "file"
           config:
             file: "/tmp/syslog_metrics.log"
+```
+Once the task file has been created, you can create and watch the task.
+```
+$ snaptel task create -t syslog.yaml
+$ snaptel task list
+ID                                       NAME                                         STATE
+f3ad05b2-3706-4991-ab29-c96e15813893     Task-f3ad05b2-3706-4991-ab29-c96e15813893    Running
+$ snaptel task watch f3ad05b2-3706-4991-ab29-c96e15813893
 ```
 
 ## Documentation
