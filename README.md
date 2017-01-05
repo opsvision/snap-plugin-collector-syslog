@@ -16,7 +16,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-# **Snap-Telemetry Collector for Syslog** [![Build Status](https://travis-ci.org/dishmael/snap-plugin-collector-syslog.svg?branch=master)](https://travis-ci.org/dishmael/snap-plugin-collector-syslog) [![Go Report Card](https://goreportcard.com/badge/github.com/dishmael/snap-plugin-collector-syslog)](https://goreportcard.com/report/github.com/dishmael/snap-plugin-collector-syslog)
+# **Snap-Telemetry Collector for Syslog** [![Build Status](https://travis-ci.org/opsvision/snap-plugin-collector-syslog.svg?branch=master)](https://travis-ci.org/opsvision/snap-plugin-collector-syslog) [![Go Report Card](https://goreportcard.com/badge/github.com/opsvision/snap-plugin-collector-syslog)](https://goreportcard.com/report/github.com/opsvision/snap-plugin-collector-syslog)
 
 This Snap-Telemetry plugin collects events from Syslog in response to the [wishlist request](https://github.com/intelsdi-x/snap/issues/1117) for this feature.
 
@@ -46,15 +46,15 @@ The following sections provide a guide for obtaining the Syslog collector plugin
 #### Download
 The simplest approach is to use ```go get``` to fetch and build the plugin. The following command will place the binary in your ```$GOPATH/bin``` folder where you can load it into snap.
 ```
-$ go get github.com/dishmael/snap-plugin-collector-syslog
+$ go get github.com/opsvision/snap-plugin-collector-syslog
 ```
 
 #### Building
 The following provides instructions for building the plugin yourself if you decided to downlaod the source. We assume you already have a $GOPATH setup for [golang development](https://golang.org/doc/code.html). The repository utilizes [glide](https://github.com/Masterminds/glide) for library management.
 ```
-$ mkdir -p $GOPATH/src/github.com/dishmael
-$ cd $GOPATH/src/github.com/dishmael
-$ git clone http://github.com/dishmael/snap-plugin-collector-syslog
+$ mkdir -p $GOPATH/src/github.com/opsvision
+$ cd $GOPATH/src/github.com/opsvision
+$ git clone http://github.com/opsvision/snap-plugin-collector-syslog
 $ glide up
 [INFO]	Downloading dependencies. Please wait...
 [INFO]	--> Fetching updates for ...
@@ -70,7 +70,7 @@ $ go install
 ```
 
 #### Source structure
-The following file structure provides an overview of where the files exist in the source tree. The [syslog.go](https://github.com/dishmael/snap-plugin-collector-syslog/blob/master/syslog/syslog.go) file does all the work.
+The following file structure provides an overview of where the files exist in the source tree. The [syslog.go](https://github.com/opsvision/snap-plugin-collector-syslog/blob/master/syslog/syslog.go) file does all the work.
 ```
 snap-plugin-collector-syslog
 ├── glide.yaml
@@ -97,7 +97,7 @@ NAMESPACE                            VERSIONS
 ```
 
 #### Task File
-Create a file called, for example, syslog.yaml shown below or download the example [task file](https://raw.githubusercontent.com/dishmael/snap-plugin-collector-syslog/master/tasks/syslog.yaml). For our task example, we are using a file publisher that outputs the collected content to /tmp/syslog_metrics.log.
+Create a file called, for example, syslog.yaml shown below or download the example [task file](https://raw.githubusercontent.com/opsvision/snap-plugin-collector-syslog/master/tasks/syslog.yaml). For our task example, we are using a file publisher that outputs the collected content to /tmp/syslog_metrics.log.
 ```
 ---
   version: 1
@@ -167,7 +167,7 @@ The ```/opsvision/syslog/event/[source]/message``` metric will be a JSON string 
 }
 ```
 ### Issues and Roadmap
-* **Testing:** The testing being done is rudimentary at best. Need to improve the testing in [syslog_test.go](https://github.com/dishmael/snap-plugin-collector-syslog/blob/master/syslog/syslog_test.go).
+* **Testing:** The testing being done is rudimentary at best. Need to improve the testing in [syslog_test.go](https://github.com/opsvision/snap-plugin-collector-syslog/blob/master/syslog/syslog_test.go).
 * **Syslog Format:** The [Syslog library](https://github.com/mcuadros/go-syslog) being used allows for different formats (RFC3164, RFC6587 or RFC5424). Need to update the code to allow for selection of one of these. Currently, the default is RFC5424.
 * **Leverage a Stream-based Collector Model:** The Snap collector workflow is schedule based. This means that the Syslog collector will spit out null values in the log if there are no messages in the queue. There have been discussions on the Snap Slack #snap-developers channel about a collector that can handle stream data. This will greatly improve the Syslog collector as well as other collection sources such as SNMP Traps, NetFlow, and so on.
 
