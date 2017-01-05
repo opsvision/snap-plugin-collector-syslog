@@ -19,7 +19,7 @@ limitations under the License.
 package main
 
 import (
-	"github.com/dishmael/snap-plugin-collector-syslog/syslog"
+	"github.com/opsvision/snap-plugin-collector-syslog/syslog"
 	"github.com/intelsdi-x/snap-plugin-lib-go/v1/plugin"
 )
 
