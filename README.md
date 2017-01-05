@@ -139,7 +139,7 @@ This plugin has the ability to gather the following metrics:
 | /opsvision/syslog/events/[source]/message | the entire syslog payload in JSON format |
 | /opsvision/syslog/events/[source]/summary | the syslog message |
 
-Note: The [source] will be either the source hostname or IP address.
+_Note: The [source] will be either the source hostname or IP address._
 
 ### Example output
 The following provides an example of the output from the Syslog collector. Here, the [source] is *localhost*.
@@ -167,7 +167,12 @@ The ```/opsvision/syslog/event/[source]/message``` metric will be a JSON string 
 }
 ```
 ### Issues and Roadmap
-* Leverage a Stream-based Collector Model: The Snap collector workflow is schedule based. This means that the Syslog collector will spit out null values in the log if there are no messages in the queue. There have been discussions on the Snap Slack #snap-developers channel about a collector that can handle stream data. This will greatly improve the Syslog collector as well as other collection sources such as SNMP Traps, NetFlow, and so on.
+* **Testing:** The testing being done is rudimentary at best. Need to improve the testing in [syslog_test.go](https://github.com/dishmael/snap-plugin-collector-syslog/blob/master/syslog/syslog_test.go).
+* **Syslog Format:** The [Syslog library](https://github.com/mcuadros/go-syslog) being used allows for different formats (RFC3164, RFC6587 or RFC5424). Need to update the code to allow for selection of one of these. Currently, the default is RFC5424.
+* **Leverage a Stream-based Collector Model:** The Snap collector workflow is schedule based. This means that the Syslog collector will spit out null values in the log if there are no messages in the queue. There have been discussions on the Snap Slack #snap-developers channel about a collector that can handle stream data. This will greatly improve the Syslog collector as well as other collection sources such as SNMP Traps, NetFlow, and so on.
+
+_Note: Please let me know if you find a bug or have feedbck on how to improve the collector._
 
 ## Acknowledgements
 * Author: [@dishmael](https://github.com/dishmael/)
+* Company: [OpsVision Solutions](https://github.com/opsvision)
