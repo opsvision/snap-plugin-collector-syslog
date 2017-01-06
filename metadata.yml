@@ -1,4 +1,4 @@
-name: snap-plugin-collector-syslog
+name: Syslog
 type: collector
 maintainer: opsvision
 license: Apache-2.0
