@@ -7,4 +7,4 @@ badge:
   - "[![Build Status](https://travis-ci.org/opsvision/snap-plugin-collector-syslog.svg?branch=master)](https://travis-ci.org/opsvision/snap-plugin-collector-syslog)"
 ci:
   - https://travis-ci.org/opsvision/snap-plugin-collector-syslog
-status: Under Construction
+status: Stable
