@@ -4,7 +4,7 @@ maintainer: opsvision
 license: Apache-2.0
 description: "Collects syslog events."
 badge:
-  - "[![Build Status](https://travis-ci.org/dishmael/snap-plugin-collector-syslog.svg?branch=master)](https://travis-ci.org/dishmael/snap-plugin-collector-syslog)"
+  - "[![Build Status](https://travis-ci.org/opsvision/snap-plugin-collector-syslog.svg?branch=master)](https://travis-ci.org/opsvision/snap-plugin-collector-syslog)"
 ci:
-  - https://travis-ci.org/dishmael/snap-plugin-collector-syslog
+  - https://travis-ci.org/opsvision/snap-plugin-collector-syslog
 status: Under Construction
