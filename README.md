@@ -176,3 +176,6 @@ _Note: Please let me know if you find a bug or have feedbck on how to improve th
 ## Acknowledgements
 * Author: [@dishmael](https://github.com/dishmael/)
 * Company: [OpsVision Solutions](https://github.com/opsvision)
+
+### Libraries
+* Syslog Library: [@mcuadros](https://github.com/mcuadros/go-syslog/tree/v2.2.1)
